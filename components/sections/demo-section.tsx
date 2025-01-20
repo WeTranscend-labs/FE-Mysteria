@@ -17,7 +17,7 @@ export function DemoSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-mysteria bg-clip-text text-transparent">
-            Try Your Luck
+            Try Your Luck ( Phần này em ny làm xong bỏ vô sau)
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience the thrill of our NFT gacha system with a free demo pull
@@ -36,14 +36,14 @@ export function DemoSection() {
               <p className="text-muted-foreground mb-6">
                 Try our gacha system with a free pull! Experience the excitement of revealing rare NFTs.
               </p>
-        <div className="space-y-4">
-  <Button className="w-full gradient-button">
-    <Star className="mr-2 h-5 w-5" /> Single Pull
-  </Button>
-  <Button className="w-full gradient-button">
-    <Sparkles className="mr-2 h-5 w-5" /> Multi Pull (x10)
-  </Button>
-</div>
+              <div className="space-y-4">
+                <Button className="w-full gradient-button">
+                  <Star className="mr-2 h-5 w-5" /> Single Pull
+                </Button>
+                <Button className="w-full gradient-button">
+                  <Sparkles className="mr-2 h-5 w-5" /> Multi Pull (x10)
+                </Button>
+              </div>
 
             </Card>
           </motion.div>
