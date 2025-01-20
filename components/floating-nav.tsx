@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Wand2 } from "lucide-react";
-import { Button } from "./ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Wand2 } from 'lucide-react';
+import { Button } from './ui/button';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { CustomConnectButton } from './wallet/CustomConnectButton';
 
 export const FloatingNav = ({
   onNavigate,
@@ -18,10 +19,10 @@ export const FloatingNav = ({
   const { theme, setTheme } = useTheme();
 
   const navItems = [
-    { name: "Features", section: "features" },
-    { name: "Demo", section: "demo" },
-    { name: "Stats", section: "stats" },
-    { name: "Roadmap", section: "roadmap" },
+    { name: 'Features', section: 'features' },
+    { name: 'Demo', section: 'demo' },
+    { name: 'Stats', section: 'stats' },
+    { name: 'Roadmap', section: 'roadmap' },
   ];
 
   return (
@@ -38,7 +39,7 @@ export const FloatingNav = ({
         duration: 0.2,
       }}
       className={cn(
-        "flex max-w-fit fixed top-6 inset-x-0 mx-auto border border-primary/20 rounded-full bg-background/80 backdrop-blur-md shadow-lg z-50 pr-2 pl-8 py-2 items-center justify-center space-x-4",
+        'flex max-w-fit fixed top-6 inset-x-0 mx-auto border border-primary/20 rounded-full bg-background/80 backdrop-blur-md shadow-lg z-50 pr-2 pl-8 py-2 items-center justify-center space-x-4',
         className
       )}
     >
@@ -71,7 +72,7 @@ export const FloatingNav = ({
       <Button
         variant="ghost"
         size="icon"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         className="h-8 w-8 rounded-full hover:bg-primary/10"
       >
         <Sun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
@@ -79,9 +80,11 @@ export const FloatingNav = ({
         <span className="sr-only">Toggle theme</span>
       </Button>
 
-      <Button className="gradient-button rounded-full">
+      {/* <Button className="gradient-button rounded-full">
         Connect Wallet
-      </Button>
+      </Button> */}
+
+      <CustomConnectButton />
     </motion.div>
   );
 };
