@@ -15,16 +15,7 @@ export function HeroSection() {
           transition={{ duration: 0.8 }}
           className="text-left relative z-10"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-16 h-16 mb-8 rounded-full bg-gradient-mysteria p-1"
-          >
-            <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-              <Star className="w-8 h-8 text-mysteria-cyan" />
-            </div>
-          </motion.div>
+
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -50,19 +41,19 @@ export function HeroSection() {
             Experience the thrill of NFT gacha with Mysteria. Summon rare artifacts, upgrade your collection, and discover legendary treasures in our mystical realm.
           </motion.p>
 
-         <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.6 }}
-  className="flex flex-wrap gap-4"
->
-  <Button size="lg" className="text-lg gradient-button">
-    <Sparkles className="mr-2 h-5 w-5" /> Open Mystery Box
-  </Button>
-  <Button size="lg" variant="outline" className="text-lg border-mysteria-cyan hover:bg-mysteria-cyan/10">
-    <Star className="mr-2 h-5 w-5" /> View Collection
-  </Button>
-</motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-wrap gap-4"
+          >
+            <Button size="lg" className="text-lg gradient-button">
+              <Sparkles className="mr-2 h-5 w-5" /> Open Mystery Box
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg border-mysteria-cyan hover:bg-mysteria-cyan/10">
+              <Star className="mr-2 h-5 w-5" /> View Collection
+            </Button>
+          </motion.div>
 
 
           {/* Stats */}
@@ -100,7 +91,7 @@ export function HeroSection() {
           <div className="relative w-full h-full">
             {/* Glowing Background Effect */}
             <div className="absolute inset-0 bg-gradient-mysteria opacity-20 blur-3xl rounded-full animate-pulse" />
-            
+
             {/* Mystery Box */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-64 h-64 md:w-96 md:h-96">
