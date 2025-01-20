@@ -37,8 +37,8 @@ const ROADMAP_PHASES = [
       "Expanded BitsCrunch features",
       "Community rewards program"
     ],
-    status: "Completed",
-    progress: 100,
+    status: "In Progress",
+    progress: 30,
     color: "from-mysteria-blue to-mysteria-purple"
   },
   {
@@ -54,8 +54,8 @@ const ROADMAP_PHASES = [
       "Partnership program",
       "Global marketing expansion"
     ],
-    status: "In Progress",
-    progress: 50,
+    status: "Upcoming",
+    progress: 0,
     color: "from-mysteria-purple to-mysteria-cyan"
   },
   {
@@ -76,6 +76,7 @@ const ROADMAP_PHASES = [
     color: "from-mysteria-cyan to-mysteria-blue"
   }
 ];
+
 
 function ProgressBar({ progress, color }: { progress: number; color: string }) {
   return (
