@@ -1,16 +1,18 @@
-import './globals.css';
+import { AOSInit } from '@/components/aos-init';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import WalletProvider from '@/providers/WalletProvider';
+import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { AOSInit } from '@/components/aos-init';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Mysteria | NFT Gacha Platform',
-  description: 'Transform your digital collection through the power of NFT Gacha and upgrades',
+  description:
+    'Transform your digital collection through the power of NFT Gacha and upgrades',
 };
 
 export default function RootLayout({
@@ -27,10 +29,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AOSInit />
+          <WalletProvider>
+            <AOSInit />
 
-          {children}
-          <Toaster />
+            {children}
+            <Toaster />
+          </WalletProvider>
         </ThemeProvider>
       </body>
     </html>

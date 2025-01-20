@@ -2,10 +2,10 @@
 
 import { useToast } from '@/hooks/use-toast';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Copy, Check, Network, Zap, Wallet } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Check, Copy, Network, Wallet } from 'lucide-react';
+import { useState } from 'react';
+import { RiNftLine } from 'react-icons/ri';
 import { Button } from '../ui/button';
-import { GiDuck } from 'react-icons/gi';
 
 export function CustomConnectButton() {
   const { toast } = useToast();
@@ -75,7 +75,13 @@ export function CustomConnectButton() {
             <Button
               onClick={openConnectModal}
               variant="default"
-              className="relative overflow-hidden rounded-xl group bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="relative overflow-hidden rounded-xl group 
+                bg-mysteria-cyan 
+                hover:bg-mysteria-blue 
+                text-white 
+                transition-colors 
+                duration-300 
+                ease-in-out"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -87,10 +93,10 @@ export function CustomConnectButton() {
                       isHovered ? 'scale-110' : 'scale-100'
                     }`}
                   >
-                    <GiDuck className="h-5 w-5" />
+                    <RiNftLine className="h-5 w-5" />
                   </div>
                   <div className="absolute inset-0 animate-ping opacity-30">
-                    <GiDuck className="h-5 w-5" />
+                    <RiNftLine className="h-5 w-5" />
                   </div>
                 </div>
                 <span className="font-medium">Connect Wallet</span>
@@ -104,7 +110,7 @@ export function CustomConnectButton() {
             <Button
               onClick={openChainModal}
               variant="destructive"
-              className="rounded-xl"
+              className="rounded-xl bg-red-500 hover:bg-red-600"
             >
               <Network className="mr-2 h-5 w-5" />
               Wrong Network
@@ -118,7 +124,11 @@ export function CustomConnectButton() {
               onClick={openChainModal}
               variant="outline"
               size="sm"
-              className="rounded-xl border-primary/20 bg-primary/5 text-xs font-medium hover:bg-primary/10"
+              className="rounded-xl 
+                border-mysteria-blue/20 
+                bg-mysteria-blue/10 
+                text-mysteria-blue 
+                hover:bg-mysteria-blue/20"
             >
               <div className="flex items-center gap-2">
                 {chain.hasIcon && (
@@ -140,18 +150,22 @@ export function CustomConnectButton() {
               onClick={openAccountModal}
               variant="outline"
               size="sm"
-              className="rounded-xl border-primary/20 bg-primary/5 hover:bg-primary/10 group"
+              className="rounded-xl 
+                border-mysteria-purple/20 
+                bg-mysteria-purple/10 
+                hover:bg-mysteria-purple/20 
+                group"
             >
               <div className="flex items-center gap-2">
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/20 group-hover:bg-primary/30">
-                  <Wallet className="h-3 w-3 text-primary" />
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-mysteria-purple/30 group-hover:bg-mysteria-purple/40">
+                  <Wallet className="h-3 w-3 text-mysteria-purple" />
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="text-xs font-medium">
+                  <span className="text-xs font-medium text-mysteria-purple">
                     {account.displayBalance}
                   </span>
                   <div className="flex items-center gap-1">
-                    <span className="text-[10px] opacity-70">
+                    <span className="text-[10px] text-mysteria-blue opacity-70">
                       {formatAddress(account.address)}
                     </span>
                     <button
@@ -161,7 +175,7 @@ export function CustomConnectButton() {
                       {isCopied ? (
                         <Check className="h-3 w-3 text-green-500" />
                       ) : (
-                        <Copy className="h-3 w-3 opacity-50 group-hover/copy:opacity-100 transition-opacity" />
+                        <Copy className="h-3 w-3 text-mysteria-cyan opacity-50 group-hover/copy:opacity-100 transition-opacity" />
                       )}
                     </button>
                   </div>
