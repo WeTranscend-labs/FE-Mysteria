@@ -75,7 +75,7 @@ export function CustomConnectButton() {
             <Button
               onClick={openConnectModal}
               variant="default"
-              className="relative overflow-hidden rounded-xl group 
+              className="relative overflow-hidden rounded-3xl group 
                 bg-mysteria-cyan 
                 hover:bg-mysteria-blue 
                 text-white 
