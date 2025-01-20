@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Menu, X, Wand2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CustomConnectButton } from './wallet/CustomConnectButton';
 
 interface NavbarProps {
   onNavigate: (section: string) => void;
@@ -26,10 +27,10 @@ export function Navbar({ onNavigate }: NavbarProps) {
   }, []);
 
   const navItems = [
-    { name: "Features", section: "features" },
-    { name: "Demo", section: "demo" },
-    { name: "Stats", section: "stats" },
-    { name: "Roadmap", section: "roadmap" },
+    { name: 'Features', section: 'features' },
+    { name: 'Demo', section: 'demo' },
+    { name: 'Stats', section: 'stats' },
+    { name: 'Roadmap', section: 'roadmap' },
   ];
 
   const handleNavigation = (section: string) => {
@@ -41,8 +42,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
 
   return (
     <motion.nav
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-background/80 backdrop-blur-md border-b border-primary/10 shadow-lg' : 'bg-transparent'
-        }`}
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? 'bg-background/80 backdrop-blur-md border-b border-primary/10 shadow-lg'
+          : 'bg-transparent'
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
@@ -84,9 +88,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
             <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
           </Button>
-          <Button className="gradient-button rounded-full">
+          {/* <Button className="gradient-button rounded-full">
             Connect Wallet
-          </Button>
+          </Button> */}
+
+          <CustomConnectButton />
         </div>
 
         {/* Mobile Menu Button */}
@@ -107,7 +113,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="rounded-full hover:bg-primary/10"
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </Button>
         </div>
       </div>
@@ -133,9 +143,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   {item.name}
                 </Button>
               ))}
-              <Button className="w-full gradient-button rounded-full">
+              {/* <Button className="w-full gradient-button rounded-full">
                 Connect Wallet
-              </Button>
+              </Button> */}
+
+              <CustomConnectButton />
             </div>
           </motion.div>
         )}

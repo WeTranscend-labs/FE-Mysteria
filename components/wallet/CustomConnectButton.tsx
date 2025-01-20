@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useToast } from '@/hooks/use-toast';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -23,7 +23,7 @@ export function CustomConnectButton() {
       .then(() => {
         toast({
           title: 'Address Copied',
-          description: 'DuckChain wallet address copied',
+          description: 'Wallet address copied',
           duration: 2000,
         });
 
@@ -82,7 +82,11 @@ export function CustomConnectButton() {
               <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(255,255,255,0.2)_50%,transparent_100%)] translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
               <div className="flex items-center gap-2">
                 <div className="relative">
-                  <div className={`transition-transform duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
+                  <div
+                    className={`transition-transform duration-300 ${
+                      isHovered ? 'scale-110' : 'scale-100'
+                    }`}
+                  >
                     <GiDuck className="h-5 w-5" />
                   </div>
                   <div className="absolute inset-0 animate-ping opacity-30">
