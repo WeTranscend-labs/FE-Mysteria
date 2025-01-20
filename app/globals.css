@@ -80,3 +80,43 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Gradient Button Styles */
+.gradient-button {
+  background: linear-gradient(
+    90deg,
+    rgb(22, 189, 202) 0%,
+    rgb(78, 125, 239) 50%,
+    rgb(130, 71, 229) 100%
+  );
+  background-size: 200% 100%;
+  transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+  background-position: 100% 0;
+  opacity: 0.9;
+}
+
+/* Feature Card Styles */
+.feature-card {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(22, 189, 202, 0.3);
+  box-shadow: 0 8px 30px rgba(22, 189, 202, 0.1);
+}
+
+.feature-icon {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+}
