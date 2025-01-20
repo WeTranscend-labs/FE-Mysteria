@@ -21,7 +21,7 @@ export const FloatingNav = ({
     { name: "Features", section: "features" },
     { name: "Demo", section: "demo" },
     { name: "Stats", section: "stats" },
-    { name: "Contact", section: "contact" },
+    { name: "Roadmap", section: "roadmap" },
   ];
 
   return (
@@ -62,7 +62,7 @@ export const FloatingNav = ({
           variant="ghost"
           size="sm"
           onClick={() => onNavigate(navItem.section)}
-          className="text-sm font-medium hover:text-mysteria-cyan transition-colors"
+          className="text-sm font-medium hover:text-mysteria-cyan transition-colors rounded-full"
         >
           {navItem.name}
         </Button>
@@ -79,7 +79,7 @@ export const FloatingNav = ({
         <span className="sr-only">Toggle theme</span>
       </Button>
 
-      <Button className="bg-gradient-mysteria hover:opacity-90 transition-opacity">
+      <Button className="gradient-button rounded-full">
         Connect Wallet
       </Button>
     </motion.div>

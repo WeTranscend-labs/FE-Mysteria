@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Sparkles, Star, Trophy, Wand2, Gem, ArrowUpCircle } from "lucide-react";
@@ -29,11 +28,9 @@ export function FeaturesSection() {
   return (
     <section id="features" className="py-20 relative">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+        <div
+          data-aos="fade-up"
+          data-aos-duration="1000"
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-mysteria bg-clip-text text-transparent">
@@ -42,16 +39,15 @@ export function FeaturesSection() {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover the enchanting features that make Mysteria unique
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              data-aos-duration="1000"
             >
               <div className="feature-card rounded-xl p-8">
                 <div className="flex flex-col items-center text-center">
@@ -62,7 +58,7 @@ export function FeaturesSection() {
                   <p className="text-muted-foreground">{feature.description}</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

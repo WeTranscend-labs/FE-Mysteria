@@ -20,8 +20,8 @@ const ROADMAP_PHASES = [
       "Community building",
       "Initial marketing campaign"
     ],
-    status: "In Progress",
-    progress: 65,
+    status: "Completed",
+    progress: 100,
     color: "from-mysteria-cyan to-mysteria-blue"
   },
   {
@@ -37,8 +37,8 @@ const ROADMAP_PHASES = [
       "Expanded BitsCrunch features",
       "Community rewards program"
     ],
-    status: "Upcoming",
-    progress: 15,
+    status: "Completed",
+    progress: 100,
     color: "from-mysteria-blue to-mysteria-purple"
   },
   {
@@ -54,8 +54,8 @@ const ROADMAP_PHASES = [
       "Partnership program",
       "Global marketing expansion"
     ],
-    status: "Planned",
-    progress: 0,
+    status: "In Progress",
+    progress: 50,
     color: "from-mysteria-purple to-mysteria-cyan"
   },
   {
@@ -71,7 +71,7 @@ const ROADMAP_PHASES = [
       "Additional chain support",
       "Enterprise partnerships"
     ],
-    status: "Planned",
+    status: "Upcoming",
     progress: 0,
     color: "from-mysteria-cyan to-mysteria-blue"
   }
@@ -116,18 +116,18 @@ function PhaseCard({ phase, index }: { phase: typeof ROADMAP_PHASES[0]; index: n
               </div>
               <div className={cn(
                 "text-xs font-medium px-3 py-1.5 rounded-full",
-                phase.status === "In Progress" 
+                phase.status === "In Progress"
                   ? "bg-mysteria-cyan/10 text-mysteria-cyan"
                   : phase.status === "Upcoming"
-                  ? "bg-mysteria-blue/10 text-mysteria-blue"
-                  : "bg-muted text-muted-foreground"
+                    ? "bg-mysteria-blue/10 text-mysteria-blue"
+                    : "bg-muted text-muted-foreground"
               )}>
                 {phase.status === "In Progress" && <Check className="inline-block w-3 h-3 mr-1" />}
                 {phase.status === "Upcoming" && <Clock className="inline-block w-3 h-3 mr-1" />}
                 {phase.status}
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="text-sm font-medium text-muted-foreground">
                 {phase.timeline}
@@ -165,7 +165,7 @@ function PhaseCard({ phase, index }: { phase: typeof ROADMAP_PHASES[0]; index: n
 export function RoadmapSection() {
   return (
     <section id="roadmap" className="relative overflow-hidden">
-      <SectionHighlight 
+      <SectionHighlight
         containerClassName="py-20"
         dotColor="rgb(22, 189, 202)"
         dotOpacity="0.15"
@@ -173,7 +173,11 @@ export function RoadmapSection() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            className="text-center mb-16"
+          >
             <div className="inline-flex items-center justify-center gap-2 bg-mysteria-cyan/10 px-4 py-2 rounded-full text-mysteria-cyan text-sm font-medium mb-4">
               <Rocket className="h-4 w-4" />
               Development Roadmap
@@ -189,14 +193,20 @@ export function RoadmapSection() {
           {/* Timeline Connector */}
           <div className="relative">
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-mysteria-cyan/50 via-mysteria-cyan/20 to-transparent hidden lg:block" />
-            
+
             {/* Roadmap Grid */}
             <div className="grid gap-8 lg:gap-16">
               {ROADMAP_PHASES.map((phase, index) => (
-                <div key={index} className={cn(
-                  "lg:grid lg:grid-cols-2 lg:gap-8 items-center",
-                  index % 2 === 0 ? "lg:text-right" : "lg:text-left"
-                )}>
+                <div
+                  key={index}
+                  data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
+                  data-aos-duration="1000"
+                  data-aos-delay={index * 100}
+                  className={cn(
+                    "lg:grid lg:grid-cols-2 lg:gap-8 items-center",
+                    index % 2 === 0 ? "lg:text-right" : "lg:text-left"
+                  )}
+                >
                   {index % 2 === 0 ? (
                     <>
                       <PhaseCard phase={phase} index={index} />

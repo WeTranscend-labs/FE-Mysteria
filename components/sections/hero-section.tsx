@@ -13,10 +13,8 @@ export function HeroSection() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-left relative z-10"
+          className="text-left relative z-10 pl-0 lg:pl-8"
         >
-
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -47,14 +45,13 @@ export function HeroSection() {
             transition={{ delay: 0.6 }}
             className="flex flex-wrap gap-4"
           >
-            <Button size="lg" className="text-lg gradient-button">
+            <Button size="lg" className="text-lg gradient-button rounded-full">
               <Sparkles className="mr-2 h-5 w-5" /> Open Mystery Box
             </Button>
-            <Button size="lg" variant="outline" className="text-lg border-mysteria-cyan hover:bg-mysteria-cyan/10">
+            <Button size="lg" variant="outline" className="text-lg border-mysteria-cyan hover:bg-mysteria-cyan/10 rounded-full">
               <Star className="mr-2 h-5 w-5" /> View Collection
             </Button>
           </motion.div>
-
 
           {/* Stats */}
           <motion.div
@@ -150,6 +147,8 @@ export function HeroSection() {
           </div>
         </motion.div>
       </div>
+
+
 
       {/* Background Effects */}
       <div className="absolute inset-0 -z-10">
