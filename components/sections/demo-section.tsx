@@ -14,7 +14,7 @@ export function DemoSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-mysteria bg-clip-text text-transparent">
-            Try Your Luck (  ͡° ͜ʖ ͡° Phần này em ny thêm vô sau nha)
+            Try Your Luck <span className="text-xs"> (  ͡° ͜ʖ ͡° Phần này em ny thêm vô sau nha)</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Experience the thrill of our NFT gacha system with a free demo pull
