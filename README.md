@@ -2,7 +2,7 @@
 # Mysteria - Your NFT, Your Story 🔗
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)  ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Version](https://img.shields.io/badge/Version-1.0.0-orange) ![Platform](https://img.shields.io/badge/platform-Web3-blueviolet) ![Blockchain](https://img.shields.io/badge/blockchain-Ethereum-blue)
 
-## Table of Contents
+## 📑 Table of Contents
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Deployment](#deployment)
