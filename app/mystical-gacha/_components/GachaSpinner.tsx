@@ -1,32 +1,29 @@
-"use client";
-
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import type { NFTRarity } from "@/types/rarities";
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
-
-interface NFTItem {
-  id: number;
-  description: string;
-  rarity: string;
-  name: string;
-  imageUrl: string;
-  icon: React.ReactNode;
-}
+import type { NFTItem, NFTRarity } from "../types/rarities";
 
 const ITEM_WIDTH = 200;
-const VISIBLE_ITEMS = 50;
+const VISIBLE_ITEMS = 5;
 const TOTAL_ITEMS = VISIBLE_ITEMS * 3;
+const CENTER_POSITION = Math.floor(VISIBLE_ITEMS / 2);
 
+// Updated image collection for each rarity
 const rarityImages = {
-  Common:
-    "https://www.nftqt.com/content/images/2021/07/Categories-featured-image.jpeg",
-  Uncommon: "https://i.ytimg.com/vi/D3YhbB_CPQU/maxresdefault.jpg",
-  Rare: "https://thecoinacademy.co/wp-content/uploads/2022/02/Qu_est-ce-qui-rend-un-nft-rare.png-800x500.webp",
-  Epic: "https://media.artsper.com/artwork/1098633_1_l.jpg",
-  Legendary: "https://i.redd.it/2dt4rnb0q2u71.jpg",
+  Common: [
+    "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=800&q=80",
+    "https://images.unsplash.com/photo-1646967822620-8e859a8b3a9c?w=800&q=80",
+    "https://images.unsplash.com/photo-1642104704074-907c0698b98d?w=800&q=80",
+  ],
+  Rare: [
+    "https://images.unsplash.com/photo-1643101809204-6fb869816dbe?w=800&q=80",
+    "https://images.unsplash.com/photo-1634986666676-ec8fd927c23d?w=800&q=80",
+    "https://images.unsplash.com/photo-1633957897986-70e83293f3ff?w=800&q=80",
+  ],
+  Legendary: [
+    "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=800&q=80",
+    "https://images.unsplash.com/photo-1633957897986-70e83293f3ff?w=800&q=80",
+    "https://images.unsplash.com/photo-1618172193622-ae2d025f4032?w=800&q=80",
+  ],
 };
 
 interface GachaSpinnerProps {
@@ -43,11 +40,16 @@ export default function GachaSpinner({
   const [items, setItems] = useState<NFTItem[]>([]);
   const [currentPosition, setCurrentPosition] = useState(0);
   const controls = useAnimation();
-  const spinnerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [showSpinEffect, setShowSpinEffect] = useState(false);
+
+  const getRandomImage = (rarity: string) => {
+    const images = rarityImages[rarity as keyof typeof rarityImages];
+    return images[Math.floor(Math.random() * images.length)];
+  };
 
   const generateItems = useCallback(
-    (count: number, offset = 0) => {
+    (count: number) => {
       const newItems: NFTItem[] = [];
       const raritiesArray = Object.values(rarities);
 
@@ -65,12 +67,11 @@ export default function GachaSpinner({
         }
 
         newItems.push({
-          id: i + offset,
+          id: i,
           rarity: selectedRarity.name,
           description: `NFT #${Math.floor(Math.random() * 1000)}`,
           name: `${selectedRarity.name} #${Math.floor(Math.random() * 1000)}`,
-          imageUrl:
-            rarityImages[selectedRarity.name as keyof typeof rarityImages],
+          imageUrl: getRandomImage(selectedRarity.name),
           icon: selectedRarity.icon,
         });
       }
@@ -80,113 +81,211 @@ export default function GachaSpinner({
   );
 
   useEffect(() => {
+    // Initialize items
     const initialItems = generateItems(TOTAL_ITEMS);
     setItems(initialItems);
     setCurrentPosition(-(VISIBLE_ITEMS * ITEM_WIDTH));
-  }, [rarities, generateItems]);
+  }, [generateItems]);
 
-  const handleScrollReset = useCallback(async () => {
-    controls.set({ x: -(VISIBLE_ITEMS * ITEM_WIDTH) });
-    setCurrentPosition(-(VISIBLE_ITEMS * ITEM_WIDTH));
-  }, [controls]);
+  const performSpinAnimation = useCallback(async () => {
+    setSelectedIndex(null);
+    setShowSpinEffect(true);
+
+    // Generate new items for spinning
+    const newItems = generateItems(TOTAL_ITEMS);
+    setItems(newItems);
+
+    // The center item will be our result
+    const centerItem = newItems[CENTER_POSITION + VISIBLE_ITEMS];
+
+    // Initial spin
+    await controls.start({
+      x: currentPosition - (ITEM_WIDTH * 8),
+      transition: {
+        duration: 3,
+        ease: "easeInOut",
+      },
+    });
+
+    // Final position calculation to center the result item
+    const finalPosition = -(CENTER_POSITION + VISIBLE_ITEMS) * ITEM_WIDTH;
+
+    // Slow down and stop at the result
+    await controls.start({
+      x: finalPosition,
+      transition: {
+        duration: 2,
+        ease: [0.32, 0.72, 0.35, 1.12],
+      },
+    });
+
+    setCurrentPosition(finalPosition);
+    setSelectedIndex(CENTER_POSITION + VISIBLE_ITEMS);
+    setShowSpinEffect(false);
+    onResult(centerItem);
+  }, [controls, currentPosition, generateItems, onResult]);
 
   useEffect(() => {
     if (isSpinning) {
-      setSelectedIndex(null);
-      const spinDuration = 5;
-      const minSpins = 2;
-      const middleSetStart = VISIBLE_ITEMS;
-      const randomIndex =
-        middleSetStart + Math.floor(Math.random() * VISIBLE_ITEMS);
-      const targetPosition = -(randomIndex * ITEM_WIDTH);
-
-      controls
-        .start({
-          x: targetPosition,
-          transition: {
-            duration: spinDuration,
-            ease: [0.25, 0.1, 0.25, 1],
-          },
-        })
-        .then(() => {
-          setSelectedIndex(randomIndex);
-          onResult(items[randomIndex]);
-          handleScrollReset();
-        });
+      performSpinAnimation();
     }
-  }, [isSpinning, items, controls, onResult, handleScrollReset]);
+  }, [isSpinning, performSpinAnimation]);
+
+  const getRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case "Common": return "white/60";
+      case "Rare": return "mysteria-cyan";
+      case "Legendary": return "amber-400";
+      default: return "white/60";
+    }
+  };
 
   return (
-    <Card className="relative w-full overflow-hidden h-64 gradient-button">
-      <CardContent className="p-0">
-        {/* <div className="absolute left-1/2 -translate-x-1/2 top-0 z-20">
-          <div className="w-1 h-12 bg-blue-500 rounded-b-full relative">
-            <ChevronDown className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-blue-500 w-6 h-6 animate-bounce" />
-          </div>
-        </div> */}
+    <div className="relative w-full overflow-hidden h-64 gradient-button rounded-lg shadow-lg">
+      {/* Spin Effects */}
+      {showSpinEffect && (
+        <motion.div
+          className="absolute inset-0 z-10 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_30%,_rgba(22,189,202,0.2)_70%,_transparent_100%)]" />
 
-        <div className="absolute left-1/2 right-0 h-full flex items-center">
-          <motion.div
-            animate={controls}
-            initial={{ x: currentPosition }}
-            className="flex gap-4 absolute h-full items-center"
-            style={{ x: currentPosition }}
-          >
-            {items.map((item, index) => (
+          {/* Particle effects */}
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-mysteria-cyan rounded-full"
+              initial={{
+                x: "50%",
+                y: "50%",
+                scale: 0,
+                opacity: 0
+              }}
+              animate={{
+                x: `${50 + (Math.random() - 0.5) * 100}%`,
+                y: `${50 + (Math.random() - 0.5) * 100}%`,
+                scale: [0, 1, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.1,
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
+
+      <div className="absolute left-1/2 right-0 h-full flex items-center">
+        <motion.div
+          animate={controls}
+          initial={{ x: currentPosition }}
+          className="flex gap-4 absolute h-full items-center"
+          style={{ x: currentPosition }}
+        >
+          {items.map((item, index) => {
+            const isSelected = selectedIndex === index;
+            const rarityColor = getRarityColor(item.rarity);
+
+            return (
               <motion.div
                 key={item.id}
-                className={`flex-shrink-0 w-[200px] h-48 rounded-xl overflow-hidden relative group 
-                  ${
-                    selectedIndex === index
-                      ? "ring-4 ring-blue-500 ring-opacity-50"
-                      : ""
-                  }`}
+                className={`flex-shrink-0 w-[150px] h-48 rounded-xl overflow-hidden relative group 
+                  ${isSelected ? `ring-4 ring-${rarityColor} ring-opacity-50` : ""}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="absolute inset-0">
-                  <Image
-                    src={item.imageUrl || "/placeholder.svg"}
+                <motion.div
+                  className="absolute inset-0"
+                  animate={isSelected ? {
+                    scale: [1, 1.1, 1],
+                    transition: { duration: 0.5 }
+                  } : {}}
+                >
+                  <img
+                    src={item.imageUrl}
                     alt={item.name}
-                    fill
-                    className="object-cover"
-                    priority
+                    className="w-full h-full object-cover rounded-lg"
                   />
-                </div>
+                </motion.div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-lg" />
 
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-4 text-white">
+                <motion.div
+                  className="absolute inset-0 flex flex-col items-center justify-end p-4 text-white"
+                  animate={isSelected ? {
+                    y: [20, 0],
+                    opacity: [0, 1],
+                    transition: { delay: 0.2, duration: 0.3 }
+                  } : {}}
+                >
                   <div className="flex items-center gap-2 mb-2">
                     {item.icon}
-                    <span className="text-lg font-bold">{item.rarity}</span>
+                    <span className={`text-lg font-bold text-${rarityColor}`}>
+                      {item.rarity}
+                    </span>
                   </div>
                   <span className="text-sm opacity-90">{item.name}</span>
-                </div>
+                </motion.div>
 
-                {selectedIndex === index && (
-                  <motion.div
-                    className="absolute inset-0 border-4 border-blue-500"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{
-                      duration: 1,
-                      repeat: Number.POSITIVE_INFINITY,
-                    }}
-                  />
+                {isSelected && (
+                  <>
+                    <motion.div
+                      className={`absolute inset-0 border-4 border-${rarityColor}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{
+                        duration: 1,
+                        repeat: Number.POSITIVE_INFINITY,
+                      }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      initial={{ x: "-100%" }}
+                      animate={{ x: "200%" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Number.POSITIVE_INFINITY,
+                      }}
+                    />
+                  </>
                 )}
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
+            );
+          })}
+        </motion.div>
+      </div>
 
-        {/* <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-gray-900 to-transparent z-10" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gray-900 to-transparent z-10" /> */}
-
-        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-blue-500/50 z-10">
-          <div className="absolute inset-0 animate-pulse bg-blue-500/30 w-4 -left-2" />
-        </div>
-      </CardContent>
-    </Card>
+      {/* Center Line Indicator */}
+      <motion.div
+        className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-mysteria-cyan/50 z-10"
+        animate={showSpinEffect ? {
+          opacity: [0.3, 1, 0.3],
+          scale: [1, 1.2, 1],
+        } : {}}
+        transition={{
+          duration: 0.5,
+          repeat: Number.POSITIVE_INFINITY,
+        }}
+      >
+        <motion.div
+          className="absolute inset-0 w-4 -left-2"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(22,189,202,0.3), transparent)",
+          }}
+          animate={showSpinEffect ? {
+            opacity: [0.3, 1, 0.3],
+          } : {}}
+          transition={{
+            duration: 0.5,
+            repeat: Number.POSITIVE_INFINITY,
+          }}
+        />
+      </motion.div>
+    </div>
   );
 }
