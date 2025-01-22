@@ -20,10 +20,18 @@ export const FloatingNav = ({
 
   const navItems = [
     { name: 'Features', section: 'features' },
-    { name: 'Demo', section: 'demo' },
+    { name: 'Demo', href: '/gacha' },  
     { name: 'Stats', section: 'stats' },
     { name: 'Roadmap', section: 'roadmap' },
   ];
+
+  const handleNavigation = (section?: string, href?: string) => {
+    if (href) {
+      window.location.href = href; 
+    } else if (section) {
+      onNavigate(section);
+    }
+  };
 
   return (
     <motion.div
@@ -50,7 +58,7 @@ export const FloatingNav = ({
           </div>
         </div>
         <button
-          onClick={() => onNavigate('home')}
+          onClick={() => handleNavigation('home')}
           className="text-sm font-semibold bg-gradient-mysteria bg-clip-text text-transparent hover:opacity-80 transition-opacity"
         >
           Mysteria
@@ -62,7 +70,7 @@ export const FloatingNav = ({
           key={`nav-${idx}`}
           variant="ghost"
           size="sm"
-          onClick={() => onNavigate(navItem.section)}
+          onClick={() => handleNavigation(navItem.section, navItem.href)} 
           className="text-sm font-medium hover:text-mysteria-cyan transition-colors rounded-full"
         >
           {navItem.name}
@@ -79,10 +87,6 @@ export const FloatingNav = ({
         <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
         <span className="sr-only">Toggle theme</span>
       </Button>
-
-      {/* <Button className="gradient-button rounded-full">
-        Connect Wallet
-      </Button> */}
 
       <CustomConnectButton />
     </motion.div>

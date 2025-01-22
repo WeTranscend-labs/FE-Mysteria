@@ -28,25 +28,30 @@ export function Navbar({ onNavigate }: NavbarProps) {
 
   const navItems = [
     { name: 'Features', section: 'features' },
-    { name: 'Demo', section: 'demo' },
+    { name: 'Demo', href: '/gacha' },
     { name: 'Stats', section: 'stats' },
     { name: 'Roadmap', section: 'roadmap' },
   ];
 
-  const handleNavigation = (section: string) => {
-    onNavigate(section);
+
+  const handleNavigation = (section?: string, href?: string) => {
+    if (href) {
+      window.location.href = href; // Hoặc sử dụng Router.push nếu đang dùng Next.js Router
+    } else if (section) {
+      onNavigate(section);
+    }
     setIsMenuOpen(false);
   };
+
 
   if (!mounted) return null;
 
   return (
     <motion.nav
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled
           ? 'bg-background/80 backdrop-blur-md border-b border-primary/10 shadow-lg'
           : 'bg-transparent'
-      }`}
+        }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
@@ -72,12 +77,13 @@ export function Navbar({ onNavigate }: NavbarProps) {
             <Button
               key={index}
               variant="ghost"
-              onClick={() => handleNavigation(item.section)}
+              onClick={() => handleNavigation(item.section, item.href)}
               className="text-sm font-medium hover:text-mysteria-cyan transition-colors rounded-full"
             >
               {item.name}
             </Button>
           ))}
+
           <Button
             variant="ghost"
             size="icon"
