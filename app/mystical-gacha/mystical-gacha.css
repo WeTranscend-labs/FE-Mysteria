@@ -1,0 +1,69 @@
+/* mystical-gacha.css */
+
+.animated-background {
+  background: linear-gradient(
+    270deg,
+    rgba(22, 189, 202, 0.2),
+    rgba(22, 189, 202, 0.1)
+  );
+  animation: gradientAnimation 15s ease infinite;
+  background-size: 400% 400%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensure it stays behind other content */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Particle effect */
+.dot-grid {
+  background: radial-gradient(
+    circle,
+    rgba(22, 189, 202, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  animation: dotAnimation 2s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensure it stays behind other content */
+}
+
+@keyframes dotAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Optional: Add a subtle overlay for depth */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Dark overlay for depth */
+  z-index: -1; /* Ensure it stays behind other content */
+}
