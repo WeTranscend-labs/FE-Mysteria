@@ -36,7 +36,7 @@ export const SectionHighlight = ({
     return (
         <div
             className={cn(
-                "relative h-full flex items-center bg-background justify-center w-full group overflow-hidden",
+                "relative h-full w-full flex items-center bg-background justify-center  group overflow-hidden",
                 containerClassName
             )}
             onMouseMove={handleMouseMove}
