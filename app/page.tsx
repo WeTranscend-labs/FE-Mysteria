@@ -60,7 +60,7 @@ export default function Home() {
         <HeroSection />
         <FeaturesSection />
         <StatsSection />
-        <DemoSection />
+        
         <RoadmapSection />
         <ContactSection />
 
