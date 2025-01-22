@@ -8,9 +8,9 @@ export const SectionHighlight = ({
     children,
     className,
     containerClassName,
-    dotColor = "#ffda00",
+    dotColor = "#17b6fa",
     dotOpacity = "0.3",
-    glowColor = "rgba(255, 218, 0, 0.15)",
+    glowColor = "rgba(59, 130, 246, 0.1)"
 }: {
     children: React.ReactNode;
     className?: string;

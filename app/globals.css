@@ -120,3 +120,48 @@
 .feature-card:hover .feature-icon {
   transform: scale(1.1);
 }
+/* Add this to your CSS file */
+.animated-background {
+  background: linear-gradient(
+    270deg,
+    rgba(22, 189, 202, 0.1),
+    rgba(22, 189, 202, 0.2)
+  );
+  animation: gradientAnimation 5s ease infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Optional: Add particle effect */
+.dot-grid {
+  background: radial-gradient(
+    circle,
+    rgba(22, 189, 202, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  animation: dotAnimation 1.5s linear infinite;
+}
+
+@keyframes dotAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
