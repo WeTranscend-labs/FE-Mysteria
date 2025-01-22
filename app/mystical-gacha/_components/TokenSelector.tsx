@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Coins } from "lucide-react";
 
 interface TokenSelectorProps {
   selectedToken: number;
@@ -13,25 +13,27 @@ export default function TokenSelector({
   const tokens = [2, 5, 10];
 
   return (
-    <div className="flex justify-center space-x-4">
-      {tokens.map((token) => (
-        <motion.div
-          key={token}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button
+    <div className="flex flex-col items-center">
+      <h3 className="text-sm font-light text-white/60 uppercase tracking-widest mb-6">Select Amount</h3>
+      <div className="flex justify-center gap-4 flex-wrap">
+        {tokens.map((token) => (
+          <motion.button
+            key={token}
             onClick={() => onSelect(token)}
-            className={`px-6 py-2 rounded-full font-semibold transition-all ${
-              selectedToken === token
-                ? "gradient-button"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            className={`px-8 py-3 font-light tracking-wide transition-all relative
+              ${selectedToken === token
+                ? "text-mysteria-cyan bg-white/10 border-mysteria-cyan"
+                : "text-white/60 hover:text-white bg-white/5 border-white/10 hover:border-white/30"
+              }
+              border rounded-lg shadow-md`}
           >
-            {token} Token
-          </Button>
-        </motion.div>
-      ))}
+            <div className="flex items-center gap-2">
+              <Coins className={`w-4 h-4 ${selectedToken === token ? "text-mysteria-cyan" : ""}`} />
+              <span>{token}</span>
+            </div>
+          </motion.button>
+        ))}
+      </div>
     </div>
   );
 }

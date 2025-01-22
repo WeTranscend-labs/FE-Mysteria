@@ -1,11 +1,6 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Crown, Trophy, Sparkles, Star, Diamond } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import type { NFTRarity } from "@/types/rarities";
-import { ProgressBar } from "@/components/sections/roadmap-section";
+import type { NFTRarity } from "../types/rarities";
 
 interface RarityChartProps {
   rarities: Record<string, NFTRarity>;
@@ -19,88 +14,53 @@ const iconMap = {
   Legendary: Crown,
 };
 
+const rarityColors = {
+  Common: "text-white/60",
+  Uncommon: "text-emerald-400",
+  Rare: "text-mysteria-cyan",
+  Epic: "text-purple-400",
+  Legendary: "text-amber-400",
+};
+
 export default function RarityChart({ rarities }: RarityChartProps) {
   const raritiesArray = Object.values(rarities);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold bg-gradient-mysteria bg-clip-text text-transparent">
-          Rarity Distribution
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid grid-cols-1 md:grid-cols-5 gap-6">
-        {raritiesArray.map((rarity, index) => {
+    <div className="bg-white/5 border border-white/10 p-4 rounded-xl backdrop-blur-sm">
+      <h2 className="text-lg font-medium text-white/80 mb-4 flex items-center gap-2">
+        <span className="text-mysteria-cyan">Drop Rates</span>
+      </h2>
+
+      <div className="grid grid-cols-5 gap-3">
+        {raritiesArray.map((rarity) => {
           const Icon = iconMap[rarity.name as keyof typeof iconMap];
+          const textColor = rarityColors[rarity.name as keyof typeof rarityColors];
+
           return (
             <motion.div
               key={rarity.name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ duration: 0.5 }}
               className="relative group"
             >
-              <Card
-                className={`bg-gradient-to-br ${rarity.bgGradient} hover:shadow-lg transition-all duration-300`}
-              >
-                <CardContent className="p-4 flex flex-col items-center justify-center gap-4">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{
-                      delay: index * 0.1 + 0.2,
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
-                    }}
-                    className="relative text-white"
-                  >
-                    <Icon className="w-12 h-12" />
-                    <motion.div
-                      className="absolute inset-0 bg-white rounded-full"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1.2, opacity: 0.3 }}
-                      transition={{
-                        repeat: Number.POSITIVE_INFINITY,
-                        duration: 2,
-                        repeatType: "reverse",
-                      }}
-                    />
-                  </motion.div>
-                  <motion.h3
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.3 }}
-                    className="font-bold text-lg text-center text-white"
-                  >
+              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-white/5 border border-white/10 hover:border-mysteria-cyan/30 transition-colors">
+                <div className={`${textColor}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="text-center">
+                  <div className={`text-sm font-medium ${textColor}`}>
                     {rarity.name}
-                  </motion.h3>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.4 }}
-                    className="text-white text-sm font-medium"
-                  >
-                    {rarity.chance}% Chance
-                  </motion.div>
-                  <motion.div
-                    className="w-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    transition={{ delay: index * 0.1 + 0.5, duration: 0.8 }}
-                  >
-                    <Progress value={rarity.chance} className="h-2" />
-                  </motion.div>
-                  {/* <ProgressBar
-                    progress={rarity.chance}
-                    color="from-mysteria-cyan to-mysteria-blue"
-                  /> */}
-                </CardContent>
-              </Card>
+                  </div>
+                  <div className="text-xs text-white/40">
+                    {rarity.chance}%
+                  </div>
+                </div>
+              </div>
             </motion.div>
           );
         })}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

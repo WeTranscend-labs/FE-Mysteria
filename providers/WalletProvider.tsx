@@ -23,7 +23,7 @@ export default function WalletProvider({ children }: Props) {
 
   // Custom theme configurations
   const customDarkTheme = darkTheme({
-    accentColor: '#ffda00',
+    accentColor: '#17b6fa',
     accentColorForeground: '#000000',
     borderRadius: 'large',
     fontStack: 'system',
@@ -31,7 +31,7 @@ export default function WalletProvider({ children }: Props) {
   });
 
   const customLightTheme = lightTheme({
-    accentColor: '#ffda00',
+    accentColor: '#17b6fa',
     accentColorForeground: '#000000',
     borderRadius: 'large',
     fontStack: 'system',

@@ -1,10 +1,7 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import type { NFTRarity } from "@/types/rarities";
-import Image from "next/image";
+import { X, Clock, Tag, Sparkles as SparklesIcon, Trophy as TrophyIcon, ArrowRight } from "lucide-react";
+import type { NFTRarity } from "../types/rarities";
 
 interface NFTRevealModalProps {
   isOpen: boolean;
@@ -25,149 +22,225 @@ export default function NFTRevealModal({
   rarities,
 }: NFTRevealModalProps) {
   const [showNFT, setShowNFT] = useState(false);
-  const isRare =
-    nft?.rarity && ["Rare", "Epic", "Legendary"].includes(nft.rarity);
+  const [currentStep, setCurrentStep] = useState(0);
+  const isRare = nft?.rarity && ["Rare", "Legendary"].includes(nft.rarity);
 
   useEffect(() => {
     if (isOpen) {
       setShowNFT(false);
-      const timer = setTimeout(() => setShowNFT(true), 2000);
+      setCurrentStep(0);
+      const timer = setTimeout(() => {
+        setShowNFT(true);
+        setCurrentStep(1);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
+  if (!isOpen || !nft) return null;
+
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const getRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case "Rare": return "mysteria-cyan";
+      case "Legendary": return "amber-400";
+      default: return "white/60";
+    }
+  };
+
+  const getRarityRGB = (rarity: string) => {
+    switch (rarity) {
+      case "Rare": return "22, 189, 202";
+      case "Legendary": return "251, 191, 36";
+      default: return "255, 255, 255";
+    }
+  };
+
+  const getRarityCardStyle = (rarity: string) => {
+    switch (rarity) {
+      case "Legendary":
+        return {
+          background: "linear-gradient(45deg, rgba(251, 191, 36, 0.1), rgba(251, 191, 36, 0.2))",
+          border: "2px solid rgba(251, 191, 36, 0.3)",
+          boxShadow: "0 0 30px rgba(251, 191, 36, 0.2), inset 0 0 20px rgba(251, 191, 36, 0.1)",
+          imageOverlay: "linear-gradient(to right, rgba(251, 191, 36, 0.1), rgba(0, 0, 0, 0.8))",
+          animation: "legendary",
+        };
+      case "Rare":
+        return {
+          background: "linear-gradient(45deg, rgba(22, 189, 202, 0.1), rgba(22, 189, 202, 0.2))",
+          border: "2px solid rgba(22, 189, 202, 0.3)",
+          boxShadow: "0 0 20px rgba(22, 189, 202, 0.15), inset 0 0 15px rgba(22, 189, 202, 0.1)",
+          imageOverlay: "linear-gradient(to right, rgba(22, 189, 202, 0.1), rgba(0, 0, 0, 0.8))",
+          animation: "rare",
+        };
+      default:
+        return {
+          background: "linear-gradient(45deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1))",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow: "none",
+          imageOverlay: "linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8))",
+          animation: "common",
+        };
+    }
+  };
+
+  const rarityColor = getRarityColor(nft.rarity);
+  const rarityRGB = getRarityRGB(nft.rarity);
+  const cardStyle = getRarityCardStyle(nft.rarity);
+
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={() => {
-        setShowNFT(false);
-        onClose();
-      }}
+    <div
+      className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 cursor-pointer"
+      onClick={handleBackgroundClick}
     >
-      <DialogContent className="max-w-2xl bg-transparent border-0 shadow-none">
-        <div className="relative w-full aspect-square rounded-xl overflow-hidden">
-          <AnimatePresence mode="wait">
-            {!showNFT && isRare && (
-              <motion.div
-                key="effects"
-                className="absolute inset-0 flex items-center justify-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <motion.div
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{
-                    opacity: [0, 1, 0],
-                    scale: [0.2, 1.5, 2],
-                    rotate: [0, 180],
-                  }}
-                  transition={{
-                    duration: 2,
-                    times: [0, 0.5, 1],
-                    repeat: 0,
-                  }}
-                >
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute top-1/2 left-1/2 w-1 h-40 origin-bottom"
-                      style={{
-                        backgroundColor:
-                          nft?.rarity === "Legendary"
-                            ? "#FFD700"
-                            : nft?.rarity === "Epic"
-                            ? "#9B30FF"
-                            : "#4169E1",
-                        rotate: `${i * 30}deg`,
-                      }}
-                    />
-                  ))}
-                </motion.div>
+      <div className="relative w-full max-w-4xl mx-4 cursor-default">
+        <button
+          onClick={onClose}
+          className="absolute -top-12 right-0 text-white/60 hover:text-white transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
 
-                {Array.from({ length: 20 }).map((_, i) => (
-                  <motion.div
-                    key={`particle-${i}`}
-                    className="absolute w-2 h-2 rounded-full"
-                    style={{
-                      backgroundColor:
-                        nft?.rarity === "Legendary"
-                          ? "#FFD700"
-                          : nft?.rarity === "Epic"
-                          ? "#9B30FF"
-                          : "#4169E1",
-                    }}
-                    initial={{
-                      x: 0,
-                      y: 0,
-                      scale: 0,
-                    }}
-                    animate={{
-                      x: Math.random() * 400 - 200,
-                      y: Math.random() * 400 - 200,
-                      scale: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      times: [0, 0.5, 1],
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
-              </motion.div>
-            )}
-
-            {showNFT && nft && (
+        <motion.div
+          className="relative aspect-[16/9] rounded-lg overflow-hidden"
+          style={{
+            background: cardStyle.background,
+            border: cardStyle.border,
+            boxShadow: cardStyle.boxShadow,
+          }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Animated border effect for legendary items */}
+          {nft.rarity === "Legendary" && (
+            <div className="absolute inset-0 z-0">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-transparent animate-pulse" />
               <motion.div
-                key="nft"
-                className="relative w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"
+                initial={{ x: "-100%" }}
+                animate={{ x: "200%" }}
                 transition={{
-                  type: "spring",
-                  duration: 0.5,
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear",
                 }}
+              />
+            </div>
+          )}
+
+          <div className="relative z-10 flex h-full">
+            <div className="w-2/3 relative overflow-hidden">
+              <motion.div
+                initial={{ scale: 1.1, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="absolute inset-0"
               >
-                <Image
-                  src={nft.imageUrl || "/placeholder.svg"}
+                <img
+                  src={nft.imageUrl}
                   alt={nft.name}
-                  fill
-                  className="object-cover"
-                  priority
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: cardStyle.imageOverlay }}
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-8">
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className={`px-4 py-2 rounded-full ${
-                      rarities[nft.rarity].color
-                    } flex items-center gap-2`}
-                  >
-                    {nft.icon}
-                    <span className="text-xl font-bold text-white">
-                      {nft.rarity}
-                    </span>
-                  </motion.div>
-
-                  <motion.h2
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="mt-4 text-2xl font-bold text-white text-center"
-                  >
-                    {nft.name}
-                  </motion.h2>
-                </div>
+                {/* Shine effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "200%" }}
+                  transition={{
+                    duration: 1.5,
+                    delay: 0.5,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                  }}
+                />
               </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </DialogContent>
-    </Dialog>
+            </div>
+
+            <div className="w-1/3 p-8 relative">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+                className="space-y-6"
+              >
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.3 }}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 bg-${rarityColor} bg-opacity-10 border border-${rarityColor} border-opacity-20 rounded-lg`}
+                  style={{
+                    boxShadow: `0 0 20px rgba(${rarityRGB}, 0.2)`,
+                  }}
+                >
+                  {nft.icon}
+                  <span className={`text-${rarityColor} font-medium`}>
+                    {nft.rarity}
+                  </span>
+                </motion.div>
+
+                <motion.h2
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  className={`text-2xl font-light tracking-wide ${nft.rarity === "Legendary" ? "text-amber-400" : "text-white"}`}
+                >
+                  {nft.name}
+                </motion.h2>
+
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="space-y-4"
+                >
+                  <div className={`flex items-center gap-3 ${nft.rarity === "Legendary" ? "text-amber-400/60" : "text-white/60"}`}>
+                    <Clock className="w-4 h-4" />
+                    <span className="text-sm">Just Minted</span>
+                  </div>
+                  <div className={`flex items-center gap-3 ${nft.rarity === "Legendary" ? "text-amber-400/60" : "text-white/60"}`}>
+                    <Tag className="w-4 h-4" />
+                    <span className="text-sm">#{Math.floor(Math.random() * 10000)}</span>
+                  </div>
+                  <div className={`flex items-center gap-3 ${nft.rarity === "Legendary" ? "text-amber-400/60" : "text-white/60"}`}>
+                    <SparklesIcon className="w-4 h-4" />
+                    <span className="text-sm">{rarities[nft.rarity].chance}% Chance</span>
+                  </div>
+                  <div className={`flex items-center gap-3 ${nft.rarity === "Legendary" ? "text-amber-400/60" : "text-white/60"}`}>
+                    <TrophyIcon className="w-4 h-4" />
+                    <span className="text-sm">Rank {Math.floor(Math.random() * 100) + 1}</span>
+                  </div>
+                </motion.div>
+
+                <motion.button
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1 }}
+                  className={`w-full mt-8 bg-${rarityColor}/20 border border-${rarityColor}/30 text-${rarityColor} py-2 flex items-center justify-center gap-2 hover:bg-${rarityColor}/30 transition-colors rounded-lg`}
+                  style={{
+                    boxShadow: `0 0 20px rgba(${rarityRGB}, 0.1)`,
+                  }}
+                >
+                  <span>View Details</span>
+                  <ArrowRight className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
