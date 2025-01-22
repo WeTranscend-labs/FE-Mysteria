@@ -1,11 +1,26 @@
+import { FloatingNavSub } from "@/components/floating-nav-sub";
+import { SectionHighlight } from "../../components/ui/section-highlight";
 import NFTUpgrade from "./_components/NFTUpgrade";
-import NFTCombine from "./_components/NFTCombine";
 
-export default function NFTUpgradePage() {
-  return (
-    <div className="min-h-screen">
-      <NFTUpgrade />
-      {/* <NFTCombine /> */}
-    </div>
-  );
+
+
+
+export default function UpgradePage() {
+    return (
+
+        <>
+            {/* Render FloatingNav */}
+            <FloatingNavSub />
+
+
+            <SectionHighlight
+                containerClassName="py-10"
+            >
+
+
+                <NFTUpgrade />
+            </SectionHighlight>
+        </>
+
+    );
 }
