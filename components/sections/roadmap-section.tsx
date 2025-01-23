@@ -1,82 +1,81 @@
-"use client";
+'use client';
 
-import { Card } from "@/components/ui/card";
-import { Sparkles, Rocket, Shield, Globe, Check, Clock } from "lucide-react";
-import { SectionHighlight } from "@/components/ui/section-highlight";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { Card } from '@/components/ui/card';
+import { Sparkles, Rocket, Shield, Globe, Check, Clock } from 'lucide-react';
+import { SectionHighlight } from '@/components/ui/section-highlight';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const ROADMAP_PHASES = [
   {
-    phase: "Phase 1: Launch",
+    phase: 'Phase 1: Launch',
     icon: <Sparkles className="h-5 w-5" />,
-    title: "Foundation & Core Features",
-    timeline: "Q2 2024",
+    title: 'Foundation & Core Features',
+    timeline: 'Q4 2024',
     features: [
-      "NFT gacha system implementation",
-      "Basic rarity tiers and drop rates",
-      "Wallet integration",
-      "BitsCrunch security integration",
-      "Community building",
-      "Initial marketing campaign"
+      'NFT gacha system implementation',
+      'Basic rarity tiers and drop rates',
+      'Wallet integration',
+      'BitsCrunch security integration',
+      'Community building',
+      'Initial marketing campaign',
     ],
-    status: "Completed",
+    status: 'Completed',
     progress: 100,
-    color: "from-mysteria-cyan to-mysteria-blue"
+    color: 'from-mysteria-cyan to-mysteria-blue',
   },
   {
-    phase: "Phase 2: Enhancement",
+    phase: 'Phase 2: Enhancement',
     icon: <Rocket className="h-5 w-5" />,
-    title: "Advanced Features",
-    timeline: "Q3 2024",
+    title: 'Advanced Features',
+    timeline: 'Q1 2025',
     features: [
-      "NFT fusion system",
-      "Advanced rarity mechanics",
-      "Marketplace integration",
-      "Mobile app beta",
-      "Expanded BitsCrunch features",
-      "Community rewards program"
+      'NFT fusion system',
+      'Advanced rarity mechanics',
+      'Marketplace integration',
+      'Mobile app beta',
+      'Expanded BitsCrunch features',
+      'Community rewards program',
     ],
-    status: "In Progress",
+    status: 'In Progress',
     progress: 30,
-    color: "from-mysteria-blue to-mysteria-purple"
+    color: 'from-mysteria-blue to-mysteria-purple',
   },
   {
-    phase: "Phase 3: Expansion",
+    phase: 'Phase 3: Expansion',
     icon: <Shield className="h-5 w-5" />,
-    title: "Ecosystem Growth",
-    timeline: "Q4 2024",
+    title: 'Ecosystem Growth',
+    timeline: 'Q2 2025',
     features: [
-      "Cross-chain compatibility",
-      "Advanced trading features",
-      "NFT staking system",
-      "Enhanced security measures",
-      "Partnership program",
-      "Global marketing expansion"
+      'Cross-chain compatibility',
+      'Advanced trading features',
+      'NFT staking system',
+      'Enhanced security measures',
+      'Partnership program',
+      'Global marketing expansion',
     ],
-    status: "Upcoming",
+    status: 'Upcoming',
     progress: 0,
-    color: "from-mysteria-purple to-mysteria-cyan"
+    color: 'from-mysteria-purple to-mysteria-cyan',
   },
   {
-    phase: "Phase 4: Evolution",
+    phase: 'Phase 4: Evolution',
     icon: <Globe className="h-5 w-5" />,
-    title: "Platform Maturity",
-    timeline: "Q1 2025",
+    title: 'Platform Maturity',
+    timeline: 'Q3 2025',
     features: [
-      "DAO governance implementation",
-      "Advanced NFT mechanics",
-      "Mobile app full release",
-      "Metaverse integration",
-      "Additional chain support",
-      "Enterprise partnerships"
+      'DAO governance implementation',
+      'Advanced NFT mechanics',
+      'Mobile app full release',
+      'Metaverse integration',
+      'Additional chain support',
+      'Enterprise partnerships',
     ],
-    status: "Upcoming",
+    status: 'Upcoming',
     progress: 0,
-    color: "from-mysteria-cyan to-mysteria-blue"
-  }
+    color: 'from-mysteria-cyan to-mysteria-blue',
+  },
 ];
-
 
 function ProgressBar({ progress, color }: { progress: number; color: string }) {
   return (
@@ -84,14 +83,20 @@ function ProgressBar({ progress, color }: { progress: number; color: string }) {
       <motion.div
         initial={{ width: 0 }}
         whileInView={{ width: `${progress}%` }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className={cn("h-full rounded-full bg-gradient-to-r", color)}
+        transition={{ duration: 1, ease: 'easeOut' }}
+        className={cn('h-full rounded-full bg-gradient-to-r', color)}
       />
     </div>
   );
 }
 
-function PhaseCard({ phase, index }: { phase: typeof ROADMAP_PHASES[0]; index: number }) {
+function PhaseCard({
+  phase,
+  index,
+}: {
+  phase: (typeof ROADMAP_PHASES)[0];
+  index: number;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -115,16 +120,22 @@ function PhaseCard({ phase, index }: { phase: typeof ROADMAP_PHASES[0]; index: n
                 </div>
                 <h3 className="text-xl font-bold">{phase.title}</h3>
               </div>
-              <div className={cn(
-                "text-xs font-medium px-3 py-1.5 rounded-full",
-                phase.status === "In Progress"
-                  ? "bg-mysteria-cyan/10 text-mysteria-cyan"
-                  : phase.status === "Upcoming"
-                    ? "bg-mysteria-blue/10 text-mysteria-blue"
-                    : "bg-muted text-muted-foreground"
-              )}>
-                {phase.status === "In Progress" && <Check className="inline-block w-3 h-3 mr-1" />}
-                {phase.status === "Upcoming" && <Clock className="inline-block w-3 h-3 mr-1" />}
+              <div
+                className={cn(
+                  'text-xs font-medium px-3 py-1.5 rounded-full',
+                  phase.status === 'In Progress'
+                    ? 'bg-mysteria-cyan/10 text-mysteria-cyan'
+                    : phase.status === 'Upcoming'
+                    ? 'bg-mysteria-blue/10 text-mysteria-blue'
+                    : 'bg-muted text-muted-foreground'
+                )}
+              >
+                {phase.status === 'In Progress' && (
+                  <Check className="inline-block w-3 h-3 mr-1" />
+                )}
+                {phase.status === 'Upcoming' && (
+                  <Clock className="inline-block w-3 h-3 mr-1" />
+                )}
                 {phase.status}
               </div>
             </div>
@@ -136,9 +147,7 @@ function PhaseCard({ phase, index }: { phase: typeof ROADMAP_PHASES[0]; index: n
               <div className="flex-1">
                 <ProgressBar progress={phase.progress} color={phase.color} />
               </div>
-              <div className="text-sm font-medium">
-                {phase.progress}%
-              </div>
+              <div className="text-sm font-medium">{phase.progress}%</div>
             </div>
           </div>
 
@@ -187,7 +196,8 @@ export function RoadmapSection() {
               Our Journey Forward
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Follow our development progress as we build the future of NFT gacha gaming
+              Follow our development progress as we build the future of NFT
+              gacha gaming
             </p>
           </div>
 
@@ -200,12 +210,12 @@ export function RoadmapSection() {
               {ROADMAP_PHASES.map((phase, index) => (
                 <div
                   key={index}
-                  data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
+                  data-aos={index % 2 === 0 ? 'fade-right' : 'fade-left'}
                   data-aos-duration="1000"
                   data-aos-delay={index * 100}
                   className={cn(
-                    "lg:grid lg:grid-cols-2 lg:gap-8 items-center",
-                    index % 2 === 0 ? "lg:text-right" : "lg:text-left"
+                    'lg:grid lg:grid-cols-2 lg:gap-8 items-center',
+                    index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'
                   )}
                 >
                   {index % 2 === 0 ? (
