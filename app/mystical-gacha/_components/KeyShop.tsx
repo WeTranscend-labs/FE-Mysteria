@@ -54,9 +54,9 @@ export default function KeyShop() {
             {/* Header */}
             <div className="text-center mb-16">
                 <h1 className="text-7xl font-bold mb-4 text-white tracking-tight">
-                    Key <span className="text-mysteria-cyan">Shop</span>
+                    Key <span className="text-blue-500">Shop</span>
                 </h1>
-                <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-mysteria-cyan to-transparent mb-4" />
+                <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-bluetext-blue-500 to-transparent mb-4" />
                 <p className="text-white/60 max-w-2xl mx-auto">
                     Purchase keys to unlock treasure chests and discover rare NFTs.
                     The more keys you buy, the better the discount!
@@ -66,9 +66,9 @@ export default function KeyShop() {
             {/* Balance */}
             <div className="flex justify-between items-center mb-12">
                 <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-3 rounded-xl">
-                    <Wallet className="w-5 h-5 text-mysteria-cyan" />
+                    <Wallet className="w-5 h-5 text-blue-500" />
                     <span className="text-white/60">Balance:</span>
-                    <span className="text-mysteria-cyan font-mono text-lg">{balance} USDT</span>
+                    <span className="text-blue-500 font-mono text-lg">{balance} USDT</span>
                 </div>
             </div>
 

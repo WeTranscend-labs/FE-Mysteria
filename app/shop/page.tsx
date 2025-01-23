@@ -7,8 +7,7 @@ import KeyShop from "../mystical-gacha/_components/KeyShop";
 export default function GachaPage() {
     return (
         <SectionHighlight
-            containerClassName="py-10"
-
+            containerClassName="pt-28 pb-8 "
         >
             <FloatingNavSub />
             <KeyShop />
