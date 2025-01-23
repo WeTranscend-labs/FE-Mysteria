@@ -60,7 +60,7 @@ export default function NFTUpgrade() {
       //   const success = Math.random() * 100 < calculateSuccessRate();
       setUpgradeResult('success');
       setIsUpgrading(false);
-    }, 12000);
+    }, 18000);
   };
 
   return (
