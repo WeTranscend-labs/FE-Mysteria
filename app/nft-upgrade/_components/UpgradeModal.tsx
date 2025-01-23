@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { TransformedNFT } from '@/hooks/useGetNFTs';
+import { AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
   ArrowRight,
-  X,
-  Star,
   Clock,
+  Sparkles,
+  Star,
   Tag,
   Trophy,
+  X,
 } from 'lucide-react';
-import { NFT } from '@/types/nft';
-import { TransformedNFT } from '@/hooks/useGetNFTs';
+import { useEffect } from 'react';
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -179,6 +178,17 @@ export default function UpgradeModal({
                         <h2 className="text-2xl font-bold text-green-500 mb-4">
                           Upgrade Successful!
                         </h2>
+
+                        <div className="flex justify-center mb-6">
+                          <img
+                            src={
+                              'https://res.cloudinary.com/dlotuochc/image/upload/v1737633537/Mysteria/Discover_Powerful_Legendary_Items_fgx6yj.jpg'
+                            }
+                            className="w-48 h-48 object-cover rounded-lg shadow-lg"
+                            alt="Upgrade Success"
+                          />
+                        </div>
+
                         <div className="flex items-center justify-center gap-4 mb-6">
                           <div className="text-center">
                             <p className="text-sm text-white/60 mb-1">

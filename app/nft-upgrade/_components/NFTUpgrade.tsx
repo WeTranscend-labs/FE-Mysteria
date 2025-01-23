@@ -8,6 +8,8 @@ import NFTChest from './NFTChest';
 import HexagonProgress from './HexagonProgress';
 import UpgradeModal from './UpgradeModal';
 import { TransformedNFT } from '@/hooks/useGetNFTs';
+import { useUpgrade } from '@/hooks/useUpgrade';
+import { toast } from '@/hooks/use-toast';
 
 export default function NFTUpgrade() {
   const [selectedNFT, setSelectedNFT] = useState<TransformedNFT | null>(null);
@@ -17,6 +19,7 @@ export default function NFTUpgrade() {
     'success' | 'failure' | null
   >(null);
   const [tokensSpent, setTokensSpent] = useState(0);
+  const { upgrade } = useUpgrade();
 
   const handleSelectNFT = (nft: TransformedNFT) => {
     setSelectedNFT(nft);
@@ -41,15 +44,23 @@ export default function NFTUpgrade() {
     return Math.min(100, baseRate + tokenBonus);
   };
 
-  const handleUpgrade = () => {
+  const handleUpgrade = async () => {
     if (!selectedNFT || !targetQuality) return;
 
+    await upgrade();
+    setTimeout(() => {
+      toast({
+        title: 'Upgrading...',
+        description: 'Please wait for the upgrade to complete.',
+        duration: 10000,
+      });
+    }, 5000);
     setIsUpgrading(true);
     setTimeout(() => {
-      const success = Math.random() * 100 < calculateSuccessRate();
-      setUpgradeResult(success ? 'success' : 'failure');
+      //   const success = Math.random() * 100 < calculateSuccessRate();
+      setUpgradeResult('success');
       setIsUpgrading(false);
-    }, 2000);
+    }, 12000);
   };
 
   return (

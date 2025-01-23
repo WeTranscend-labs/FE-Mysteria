@@ -451,6 +451,31 @@ export const contractABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'upgradeToSilver',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'tokenId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'string',
+            name: 'tokenURI',
+            type: 'string',
+          },
+        ],
+        internalType: 'struct Mysteria.NFTInfo',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'enum Mysteria.Type',
