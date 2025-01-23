@@ -1,6 +1,6 @@
 import { getDefaultConfig, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { ledgerWallet, trustWallet } from '@rainbow-me/rainbowkit/wallets';
-import { kairos } from 'viem/chains';
+import { sepolia } from 'viem/chains';
 import { http } from 'wagmi';
 
 const { wallets } = getDefaultWallets();
@@ -15,12 +15,12 @@ const walletConfig = getDefaultConfig({
       wallets: [trustWallet, ledgerWallet],
     },
   ],
-  chains: [kairos],
+  chains: [sepolia],
   transports: {
-    [kairos.id]: http('https://public-en-kairos.node.kaia.io'),
+    [sepolia.id]: http(''),
   },
   ssr: true,
 });
 
 export default walletConfig;
-export { kairos as network };
+export { sepolia as network };

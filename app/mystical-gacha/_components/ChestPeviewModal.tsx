@@ -11,8 +11,8 @@ interface ChestPreviewModalProps {
 
 const rarityImages = {
   Common: [
-    'https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=800&q=80',
-    'https://images.unsplash.com/photo-1646967822620-8e859a8b3a9c?w=800&q=80',
+    'https://ipfs.io/ipfs/QmNqBDFWgak6cmgtzKzxRcva2AP7eZ46DaVmC7hzChzmzu',
+    'https://ipfs.io/ipfs/QmcKX7unDHLYrfT8usWrMKzYMD6EzUUwPvcbifKAyjPwoz',
   ],
   Rare: [
     'https://images.unsplash.com/photo-1643101809204-6fb869816dbe?w=800&q=80',
