@@ -3,7 +3,7 @@
 import { useGetKeys } from '@/hooks/useGetKeys';
 import { motion } from 'framer-motion';
 import { Key, Lock } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { chests } from '../data/chests';
 import { ChestType } from '../types/chest';
@@ -28,75 +28,42 @@ export default function ChestRoom() {
   const [showReveal, setShowReveal] = useState(false);
   const [resultNFT, setResultNFT] = useState<NFTItem | null>(null);
   const [showSelectedChest, setShowSelectedChest] = useState(false);
-  // const [keyBalances, setKeyBalances] = useState<
-  //   Record<ChestType['type'], number>
-  // >({
-  //   Bronze: 0,
-  //   Silver: 0,
-  //   Gold: 0,
-  //   Legend: 0,
-  // });
+
+  const handleOpenChest = useCallback(
+    (chest: ChestType) => {
+      if (keyBalances[chest.type] <= 0) return;
+      setSelectedChest(chest);
+      setShowSelectedChest(true);
+      setShowPreview(true);
+    },
+    [keyBalances]
+  );
 
   // useEffect(() => {
-  //   if (keys && keys.length === 4) {
-  //     const newKeyBalances = {
-  //       Bronze: keys[0],
-  //       Silver: keys[1],
-  //       Gold: keys[2],
-  //       Legend: keys[3],
-  //     };
+  //   switch (transactionStatus.status) {
+  //     case 'pending':
+  //       toast({
+  //         title: 'Processing Chest',
+  //         description: 'Your chest is being opened...',
+  //         duration: 3000,
+  //       });
+  //       break;
 
-  //     const isBalancesChanged = Object.keys(newKeyBalances).some(
-  //       (key) =>
-  //         newKeyBalances[key as ChestType['type']] !==
-  //         keyBalances[key as ChestType['type']]
-  //     );
+  //     case 'confirmed':
+  //       setShowPreview(false);
+  //       setShowSpinner(true);
+  //       setIsSpinning(true);
+  //       break;
 
-  //     if (isBalancesChanged) {
-  //       setKeyBalances(newKeyBalances);
-  //     }
+  //     case 'failed':
+  //       toast({
+  //         title: 'Chest Opening Failed',
+  //         description: transactionStatus.error,
+  //         variant: 'destructive',
+  //       });
+  //       break;
   //   }
-  // }, [keys, JSON.stringify(keyBalances)]);
-
-  // useEffect(() => {
-  //   const savedKeyBalances = localStorage.getItem('keyBalances');
-  //   if (savedKeyBalances) {
-  //     setKeyBalances(JSON.parse(savedKeyBalances));
-  //   }
-  // }, []);
-
-  const handleOpenChest = async (chest: ChestType) => {
-    if (keyBalances[chest.type] <= 0) return;
-    setSelectedChest(chest);
-    setShowSelectedChest(true);
-    setShowPreview(true);
-  };
-
-  useEffect(() => {
-    switch (transactionStatus.status) {
-      case 'pending':
-        toast({
-          title: 'Processing Chest',
-          description: 'Your chest is being opened...',
-          duration: 3000,
-        });
-        break;
-
-      case 'confirmed':
-        setShowPreview(false);
-        setShowSpinner(true);
-        setIsSpinning(true);
-        break;
-
-      case 'failed':
-        toast({
-          title: 'Chest Opening Failed',
-          description: transactionStatus.error,
-          variant: 'destructive',
-        });
-        break;
-    }
-  }, [transactionStatus]);
+  // }, [transactionStatus]);
 
   const handleConfirmOpen = async () => {
     if (!selectedChest) return;
@@ -108,6 +75,7 @@ export default function ChestRoom() {
         Gold: KeyType.Gold,
         Legend: KeyType.Legendary,
       }[selectedChest.type];
+      if (isConfirming) return;
 
       await useKeyWithGasSponsor({ keyType });
     } catch (err) {
@@ -117,13 +85,6 @@ export default function ChestRoom() {
         variant: 'destructive',
       });
     }
-
-    // const newKeyBalances = {
-    //   ...keyBalances,
-    //   [selectedChest.type]: keyBalances[selectedChest.type] - 1,
-    // };
-    // setKeyBalances(newKeyBalances);
-    // localStorage.setItem('keyBalances', JSON.stringify(newKeyBalances));
 
     setShowPreview(false);
     setShowSpinner(true);
