@@ -1,6 +1,5 @@
 'use client';
 
-import { KeyType } from '@/hooks/useBuyKeys';
 import { useGetKeys } from '@/hooks/useGetKeys';
 import { motion } from 'framer-motion';
 import { Key, Lock } from 'lucide-react';
@@ -12,10 +11,15 @@ import type { NFTItem } from '../types/rarities';
 import ChestPreviewModal from './ChestPeviewModal';
 import GachaSpinner from './GachaSpinner';
 import NFTRevealModal from './NFTRevealModal';
+import { useKeys } from '@/hooks/useKeys';
+import { useToast } from '@/hooks/use-toast';
+import { KeyType } from '@/hooks/useBuyKeys';
 
 export default function ChestRoom() {
   const { address, isConnected } = useAccount();
-  const { keys, isLoading: isLoadingKeys } = useGetKeys(address);
+  const { keys: keyBalances, isLoading: isLoadingKeys } = useGetKeys(address);
+  const { useKeyWithGasSponsor, transactionStatus, isConfirming } = useKeys();
+  const { toast } = useToast();
 
   const [selectedChest, setSelectedChest] = useState<ChestType | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -24,49 +28,102 @@ export default function ChestRoom() {
   const [showReveal, setShowReveal] = useState(false);
   const [resultNFT, setResultNFT] = useState<NFTItem | null>(null);
   const [showSelectedChest, setShowSelectedChest] = useState(false);
-  const [keyBalances, setKeyBalances] = useState<
-    Record<ChestType['type'], number>
-  >({
-    Bronze: 0,
-    Silver: 0,
-    Gold: 0,
-    Legend: 0,
-  });
+  // const [keyBalances, setKeyBalances] = useState<
+  //   Record<ChestType['type'], number>
+  // >({
+  //   Bronze: 0,
+  //   Silver: 0,
+  //   Gold: 0,
+  //   Legend: 0,
+  // });
 
-  useEffect(() => {
-    if (keys) {
-      setKeyBalances({
-        Bronze: keys[0],
-        Silver: keys[1],
-        Gold: keys[2],
-        Legend: keys[3],
-      });
-    }
-  }, [keys]);
+  // useEffect(() => {
+  //   if (keys && keys.length === 4) {
+  //     const newKeyBalances = {
+  //       Bronze: keys[0],
+  //       Silver: keys[1],
+  //       Gold: keys[2],
+  //       Legend: keys[3],
+  //     };
 
-  useEffect(() => {
-    const savedKeyBalances = localStorage.getItem('keyBalances');
-    if (savedKeyBalances) {
-      setKeyBalances(JSON.parse(savedKeyBalances));
-    }
-  }, []);
+  //     const isBalancesChanged = Object.keys(newKeyBalances).some(
+  //       (key) =>
+  //         newKeyBalances[key as ChestType['type']] !==
+  //         keyBalances[key as ChestType['type']]
+  //     );
 
-  const handleOpenChest = (chest: ChestType) => {
+  //     if (isBalancesChanged) {
+  //       setKeyBalances(newKeyBalances);
+  //     }
+  //   }
+  // }, [keys, JSON.stringify(keyBalances)]);
+
+  // useEffect(() => {
+  //   const savedKeyBalances = localStorage.getItem('keyBalances');
+  //   if (savedKeyBalances) {
+  //     setKeyBalances(JSON.parse(savedKeyBalances));
+  //   }
+  // }, []);
+
+  const handleOpenChest = async (chest: ChestType) => {
     if (keyBalances[chest.type] <= 0) return;
     setSelectedChest(chest);
     setShowSelectedChest(true);
     setShowPreview(true);
   };
 
-  const handleConfirmOpen = () => {
+  useEffect(() => {
+    switch (transactionStatus.status) {
+      case 'pending':
+        toast({
+          title: 'Processing Chest',
+          description: 'Your chest is being opened...',
+          duration: 3000,
+        });
+        break;
+
+      case 'confirmed':
+        setShowPreview(false);
+        setShowSpinner(true);
+        setIsSpinning(true);
+        break;
+
+      case 'failed':
+        toast({
+          title: 'Chest Opening Failed',
+          description: transactionStatus.error,
+          variant: 'destructive',
+        });
+        break;
+    }
+  }, [transactionStatus]);
+
+  const handleConfirmOpen = async () => {
     if (!selectedChest) return;
 
-    const newKeyBalances = {
-      ...keyBalances,
-      [selectedChest.type]: keyBalances[selectedChest.type] - 1,
-    };
-    setKeyBalances(newKeyBalances);
-    localStorage.setItem('keyBalances', JSON.stringify(newKeyBalances));
+    try {
+      const keyType = {
+        Bronze: KeyType.Bronze,
+        Silver: KeyType.Silver,
+        Gold: KeyType.Gold,
+        Legend: KeyType.Legendary,
+      }[selectedChest.type];
+
+      await useKeyWithGasSponsor({ keyType });
+    } catch (err) {
+      toast({
+        title: 'Chest Opening Failed',
+        description: 'Could not open chest. Please try again.',
+        variant: 'destructive',
+      });
+    }
+
+    // const newKeyBalances = {
+    //   ...keyBalances,
+    //   [selectedChest.type]: keyBalances[selectedChest.type] - 1,
+    // };
+    // setKeyBalances(newKeyBalances);
+    // localStorage.setItem('keyBalances', JSON.stringify(newKeyBalances));
 
     setShowPreview(false);
     setShowSpinner(true);
@@ -260,7 +317,9 @@ export default function ChestRoom() {
 
                   <button
                     onClick={() => handleOpenChest(chest)}
-                    disabled={keyBalances[chest.type] <= 0 || isSpinning}
+                    disabled={
+                      keyBalances[chest.type] <= 0 || isSpinning || isConfirming
+                    }
                     className="w-full mt-6 py-3 px-4 flex items-center justify-center gap-2 rounded-lg transition-all disabled:bg-white/5 disabled:text-white/20 disabled:border-white/5"
                     style={{
                       backgroundColor: `${chest.color}10`,
@@ -269,7 +328,9 @@ export default function ChestRoom() {
                       borderWidth: 1,
                     }}
                   >
-                    {isSpinning ? (
+                    {isConfirming ? (
+                      <span>Processing...</span>
+                    ) : isSpinning ? (
                       <span>Opening...</span>
                     ) : keyBalances[chest.type] > 0 ? (
                       <>
