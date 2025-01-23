@@ -23,7 +23,7 @@ export default function GachaPage() {
 
 
             <SectionHighlight
-                containerClassName="py-10"
+                containerClassName="pt-28 pb-10 "
             >
 
                 <ChestRoom />
