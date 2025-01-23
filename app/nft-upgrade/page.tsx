@@ -14,7 +14,7 @@ export default function UpgradePage() {
 
 
             <SectionHighlight
-                containerClassName="py-10"
+                containerClassName="pt-20 pb-10 "
             >
 
 
