@@ -1,16 +1,17 @@
 "use client";
 
-import { Navbar } from "@/components/navbar";
 import { FloatingNav } from "@/components/floating-nav";
+import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/sections/hero-section";
-import { FeaturesSection } from "@/components/sections/features-section";
-import { StatsSection } from "@/components/sections/stats-section";
-import { DemoSection } from "@/components/sections/demo-section";
-import { RoadmapSection } from "@/components/sections/roadmap-section";
+
 import { ContactSection } from "@/components/sections/contact-section";
-import { motion } from "framer-motion";
+import FeatureSection from "@/components/sections/features-section";
+import { RoadmapSection } from "@/components/sections/roadmap-section";
+import { StatsSection } from "@/components/sections/stats-section";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+
 
 export default function Home() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -58,9 +59,9 @@ export default function Home() {
 
         {/* Content sections */}
         <HeroSection />
-        <FeaturesSection />
+        <FeatureSection />
         <StatsSection />
-        
+
         <RoadmapSection />
         <ContactSection />
 
