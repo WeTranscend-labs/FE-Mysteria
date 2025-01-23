@@ -1,15 +1,8 @@
 'use client';
 
-import { useReadContract } from 'wagmi';
+import { ChestType } from '@/app/mystical-gacha/types/chest';
 import { contractABI as abi } from '@/lib/contracts/contractABI';
-import { KeyType } from './useBuyKeys';
-
-export interface UserKeys {
-  [KeyType.Bronze]: number;
-  [KeyType.Silver]: number;
-  [KeyType.Gold]: number;
-  [KeyType.Legendary]: number;
-}
+import { useReadContract } from 'wagmi';
 
 export function useGetKeys(userAddress?: string) {
   const { data, error, isLoading, isSuccess } = useReadContract({
@@ -22,18 +15,26 @@ export function useGetKeys(userAddress?: string) {
     },
   });
 
-  const formatKeys = (keysData: unknown): UserKeys | undefined => {
-    if (!Array.isArray(keysData)) return undefined;
+  const formatKeys = (keysData: unknown): Record<ChestType['type'], number> => {
+    // Nếu không có dữ liệu, trả về object với giá trị 0
+    if (!keysData || !Array.isArray(keysData)) {
+      return {
+        Bronze: 0,
+        Silver: 0,
+        Gold: 0,
+        Legend: 0,
+      };
+    }
 
     const keysArray = keysData.map((key) =>
       typeof key === 'bigint' ? key : BigInt(key as string)
     );
 
     return {
-      [KeyType.Bronze]: Number(keysArray[0] || 0),
-      [KeyType.Silver]: Number(keysArray[1] || 0),
-      [KeyType.Gold]: Number(keysArray[2] || 0),
-      [KeyType.Legendary]: Number(keysArray[3] || 0),
+      Bronze: Number(keysArray[0] || 0),
+      Silver: Number(keysArray[1] || 0),
+      Gold: Number(keysArray[2] || 0),
+      Legend: Number(keysArray[3] || 0),
     };
   };
 
