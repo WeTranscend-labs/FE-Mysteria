@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Wand2 } from 'lucide-react';
-import { Button } from './ui/button';
+import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import Logo from './Logo';
+import { Button } from './ui/button';
 import { CustomConnectButton } from './wallet/CustomConnectButton';
 
 export const FloatingNav = ({
@@ -20,14 +19,14 @@ export const FloatingNav = ({
 
   const navItems = [
     { name: 'Features', section: 'features' },
-    { name: 'Demo', href: '/gacha' },  
+    { name: 'Demo', href: '/gacha' },
     { name: 'Stats', section: 'stats' },
     { name: 'Roadmap', section: 'roadmap' },
   ];
 
   const handleNavigation = (section?: string, href?: string) => {
     if (href) {
-      window.location.href = href; 
+      window.location.href = href;
     } else if (section) {
       onNavigate(section);
     }
@@ -52,11 +51,12 @@ export const FloatingNav = ({
       )}
     >
       <div className="flex items-center gap-2 pr-4 border-r border-primary/20">
-        <div className="h-6 w-6 rounded-full bg-gradient-mysteria p-0.5">
+        {/* <div className="h-6 w-6 rounded-full bg-gradient-mysteria p-0.5">
           <div className="flex h-full w-full items-center justify-center rounded-full bg-background/80">
             <Wand2 className="h-3 w-3 text-mysteria-cyan" />
           </div>
-        </div>
+        </div> */}
+        <Logo />
         <button
           onClick={() => handleNavigation('home')}
           className="text-sm font-semibold bg-gradient-mysteria bg-clip-text text-transparent hover:opacity-80 transition-opacity"
@@ -70,7 +70,7 @@ export const FloatingNav = ({
           key={`nav-${idx}`}
           variant="ghost"
           size="sm"
-          onClick={() => handleNavigation(navItem.section, navItem.href)} 
+          onClick={() => handleNavigation(navItem.section, navItem.href)}
           className="text-sm font-medium hover:text-mysteria-cyan transition-colors rounded-full"
         >
           {navItem.name}

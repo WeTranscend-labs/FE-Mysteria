@@ -1,10 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Moon, Sun, Menu, X, Wand2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Logo from './Logo';
 import { CustomConnectButton } from './wallet/CustomConnectButton';
 
 interface NavbarProps {
@@ -33,7 +34,6 @@ export function Navbar({ onNavigate }: NavbarProps) {
     { name: 'Roadmap', section: 'roadmap' },
   ];
 
-
   const handleNavigation = (section?: string, href?: string) => {
     if (href) {
       window.location.href = href; // Hoặc sử dụng Router.push nếu đang dùng Next.js Router
@@ -43,26 +43,22 @@ export function Navbar({ onNavigate }: NavbarProps) {
     setIsMenuOpen(false);
   };
 
-
   if (!mounted) return null;
 
   return (
     <motion.nav
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
           ? 'bg-background/80 backdrop-blur-md border-b border-primary/10 shadow-lg'
           : 'bg-transparent'
-        }`}
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center space-x-2">
-          <div className="h-8 w-8 rounded-full bg-gradient-mysteria p-0.5">
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-background/80">
-              <Wand2 className="h-4 w-4 text-mysteria-cyan" />
-            </div>
-          </div>
+          <Logo />
           <button
             onClick={() => handleNavigation('home')}
             className="text-lg font-semibold bg-gradient-mysteria bg-clip-text text-transparent hover:opacity-80 transition-opacity"

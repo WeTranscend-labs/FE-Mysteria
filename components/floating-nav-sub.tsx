@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Wand2, Home, ShoppingBag, Box, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Box, Home, ShoppingBag, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
+import Logo from './Logo';
 
 interface NavItemProps {
   href: string;
@@ -81,7 +82,7 @@ export const FloatingNavSub = ({ className }: { className?: string }) => {
       >
         <div className="flex items-center gap-6 p-4 py-2">
           {/* Logo */}
-          <motion.div
+          {/* <motion.div
             whileHover={{ rotate: [0, -10, 10, 0] }}
             transition={{ duration: 0.5 }}
             className="h-8 w-8 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/10 p-0.5 border border-blue-500/20"
@@ -89,7 +90,8 @@ export const FloatingNavSub = ({ className }: { className?: string }) => {
             <div className="flex h-full w-full items-center justify-center rounded-lg bg-black/40">
               <Wand2 className="h-4 w-4 text-blue-500" />
             </div>
-          </motion.div>
+          </motion.div> */}
+          <Logo />
 
           {/* Navigation Links */}
           <div className="flex items-center gap-2">

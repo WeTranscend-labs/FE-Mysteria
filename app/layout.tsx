@@ -6,7 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-
+import logo from '@/imgs/logo.png';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="@/imgs/logo.png" type="image/png" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
@@ -31,7 +34,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <WalletProvider>
-
             <AOSInit />
 
             {children}
