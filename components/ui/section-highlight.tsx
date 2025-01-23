@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
@@ -36,7 +36,7 @@ export const SectionHighlight = ({
     return (
         <div
             className={cn(
-                "relative h-full w-full flex items-center bg-background justify-center  group overflow-hidden",
+                "relative h-full w-full flex items-center bg-background justify-center group overflow-hidden",
                 containerClassName
             )}
             onMouseMove={handleMouseMove}
@@ -63,7 +63,7 @@ export const SectionHighlight = ({
           `,
                 }}
             />
-            <div className={cn("relative z-20", className)}>{children}</div>
+            <div className={cn("relative z-20 w-full", className)}>{children}</div>
         </div>
     );
 };

@@ -55,6 +55,8 @@ export const FloatingNavSub = ({
         { name: 'Shop', href: '/shop', icon: ShoppingBag },
         { name: 'Gacha', href: '/gacha', icon: Box },
         { name: 'Upgrade', href: '/nft-upgrade', icon: Sparkles },
+        { name: 'Collection', href: '/collection', icon: Box },
+
     ];
 
     const activeIndex = navItems.findIndex(item => item.href === pathname);
