@@ -8,9 +8,7 @@ import { keyPackages } from '../data/chests';
 import KeyPurchaseConfirmModal from './KeyPurchaseConfirmModal';
 
 export default function KeyShop() {
-  const [selectedPackage, setSelectedPackage] = useState<KeyPackage | null>(
-    null
-  );
+  const [selectedPackage, setSelectedPackage] = useState<KeyPackage | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [balance, setBalance] = useState(1000);
 
@@ -29,7 +27,7 @@ export default function KeyShop() {
   const handleConfirmPurchase = () => {
     if (selectedPackage) {
       if (balance < selectedPackage.price) {
-        alert('Insufficient balance!');
+        alert("Insufficient balance!");
         return;
       }
 
@@ -37,10 +35,7 @@ export default function KeyShop() {
       setBalance(newBalance);
       localStorage.setItem('balance', String(newBalance));
 
-      const keyBalances = JSON.parse(
-        localStorage.getItem('keyBalances') ||
-          '{"Bronze":0,"Silver":0,"Gold":0,"Legend":0}'
-      );
+      const keyBalances = JSON.parse(localStorage.getItem('keyBalances') || '{"Bronze":0,"Silver":0,"Gold":0,"Legend":0}');
       keyBalances[selectedPackage.type] += selectedPackage.amount;
       localStorage.setItem('keyBalances', JSON.stringify(keyBalances));
 
@@ -59,51 +54,39 @@ export default function KeyShop() {
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="text-7xl font-bold mb-4 text-white tracking-tight">
-          Key <span className="text-mysteria-cyan">Shop</span>
+          Key <span className="text-blue-500">Shop</span>
         </h1>
-        <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-mysteria-cyan to-transparent mb-4" />
+        <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-blue-500 to-transparent mb-4" />
         <p className="text-white/60 max-w-2xl mx-auto">
-          Purchase keys to unlock treasure chests and discover rare NFTs. The
-          more keys you buy, the better the discount!
+          Purchase keys to unlock treasure chests and discover rare NFTs.
+          The more keys you buy, the better the discount!
         </p>
       </div>
 
       {/* Balance */}
       <div className="flex justify-between items-center mb-12">
         <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-3 rounded-xl">
-          <Wallet className="w-5 h-5 text-mysteria-cyan" />
+          <Wallet className="w-5 h-5 text-blue-500" />
           <span className="text-white/60">Balance:</span>
-          <span className="text-mysteria-cyan font-mono text-lg">
-            {balance} ETH
-          </span>
+          <span className="text-blue-500 font-mono text-lg">{balance} USDT</span>
         </div>
       </div>
 
       {/* Key Package Categories */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {['Bronze', 'Silver', 'Gold', 'Legend'].map((type) => {
-          const packages = keyPackages.filter((pkg) => pkg.type === type);
-          const color =
-            type === 'Bronze'
-              ? 'rgb(176, 141, 87)'
-              : type === 'Silver'
-              ? 'rgb(192, 192, 192)'
-              : type === 'Gold'
-              ? 'rgb(255, 215, 0)'
-              : 'rgb(148, 0, 211)';
+          const packages = keyPackages.filter(pkg => pkg.type === type);
+          const color = type === 'Bronze' ? 'rgb(176, 141, 87)' :
+            type === 'Silver' ? 'rgb(192, 192, 192)' :
+              type === 'Gold' ? 'rgb(255, 215, 0)' : 'rgb(148, 0, 211)';
 
           return (
             <div key={type} className="space-y-4">
               <div className="flex items-center gap-3 mb-6">
-                {type === 'Bronze' ? (
-                  <Package className="w-5 h-5" style={{ color }} />
-                ) : type === 'Silver' ? (
-                  <Gift className="w-5 h-5" style={{ color }} />
-                ) : type === 'Gold' ? (
-                  <Key className="w-5 h-5" style={{ color }} />
-                ) : (
-                  <Crown className="w-5 h-5" style={{ color }} />
-                )}
+                {type === 'Bronze' ? <Package className="w-5 h-5" style={{ color }} /> :
+                  type === 'Silver' ? <Gift className="w-5 h-5" style={{ color }} /> :
+                    type === 'Gold' ? <Key className="w-5 h-5" style={{ color }} /> :
+                      <Crown className="w-5 h-5" style={{ color }} />}
                 <h2 className="text-lg font-medium text-white">{type} Keys</h2>
               </div>
 
@@ -121,13 +104,29 @@ export default function KeyShop() {
                     />
 
                     <div className="relative bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+                      {/* Images Section */}
+                      <div className="relative aspect-[2/1] overflow-hidden">
+                        {/* Chest Image */}
+                        <img
+                          src={pkg.chestImage}
+                          alt={`${type} Chest`}
+                          className="absolute left-0 top-0 w-1/2 h-full object-cover opacity-80"
+                        />
+                        {/* Key Image */}
+                        <img
+                          src={pkg.image}
+                          alt={`${type} Key`}
+                          className="absolute right-0 top-0 w-1/2 h-full object-cover opacity-80"
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                      </div>
+
                       <div className="p-4">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-2">
                             <Key className="w-4 h-4" style={{ color }} />
-                            <span className="text-white font-medium">
-                              {pkg.amount}x Keys
-                            </span>
+                            <span className="text-white font-medium">{pkg.amount}x Keys</span>
                           </div>
                           {pkg.discount > 0 && (
                             <div
@@ -135,7 +134,7 @@ export default function KeyShop() {
                               style={{
                                 backgroundColor: `${color}20`,
                                 color: color,
-                                border: `1px solid ${color}40`,
+                                border: `1px solid ${color}40`
                               }}
                             >
                               Save {pkg.discount}%
@@ -147,10 +146,8 @@ export default function KeyShop() {
                           <div className="space-y-1">
                             <p className="text-white/40 text-sm">Price</p>
                             <div className="flex items-baseline gap-2">
-                              <span className="text-white text-xl font-medium">
-                                {pkg.price}
-                              </span>
-                              <span className="text-white/60 text-sm">ETH</span>
+                              <span className="text-white text-xl font-medium">{pkg.price}</span>
+                              <span className="text-white/60 text-sm">USDT</span>
                             </div>
                           </div>
                           <button
@@ -159,7 +156,7 @@ export default function KeyShop() {
                             style={{
                               backgroundColor: `${color}20`,
                               color: color,
-                              border: `1px solid ${color}40`,
+                              border: `1px solid ${color}40`
                             }}
                           >
                             <ShoppingCart className="w-4 h-4" />

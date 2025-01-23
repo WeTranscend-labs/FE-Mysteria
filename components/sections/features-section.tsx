@@ -162,7 +162,7 @@ export default function FeaturesSection() {
   const features = [
     {
       category: "Gacha NFT",
-      imageUrl: "https://ibb.co/TMgCwtc",
+      imageUrl: "https://res.cloudinary.com/dlotuochc/image/upload/v1737633257/Mysteria/Summon_Rare_NFTs_from_Mystical_Chests_krtidq.jpg",
       title: "Summon Rare NFTs from Mystical Chests",
       description: "Open mystical chests to discover and collect rare NFTs with unique powers and abilities. Each chest contains a chance to obtain legendary items that can turn the tide of battle.",
       color: "rgb(56, 209, 222)", // mysteria-cyan
@@ -174,7 +174,7 @@ export default function FeaturesSection() {
       category: "NFT Upgrade",
       title: "Enhance & Fuse Your NFT Collection",
       description: "Upgrade your NFTs to unlock their true potential and create powerful legendary items. Combine multiple NFTs to forge even stronger artifacts with unique abilities and enhanced stats.",
-      imageUrl: "https://ibb.co/3mtMrSZ",
+      imageUrl: "https://res.cloudinary.com/dlotuochc/image/upload/v1737633371/Mysteria/upgrade_nft_eewq7o.jpg",
       color: "rgb(98, 145, 255)", // mysteria-blue
       glowColor: "rgba(98, 145, 255, 0.5)",
       href: "/upgrade",
@@ -184,7 +184,7 @@ export default function FeaturesSection() {
       category: "Legendary NFTs",
       title: "Discover Powerful Legendary Items",
       description: "Collect and trade legendary NFTs with unique attributes and special abilities. Each legendary item has its own lore, special effects, and can dramatically change your gameplay experience.",
-      imageUrl: "https://ibb.co/TMgCwtc",
+      imageUrl: "https://res.cloudinary.com/dlotuochc/image/upload/v1737633537/Mysteria/Discover_Powerful_Legendary_Items_fgx6yj.jpg",
       color: "rgb(150, 91, 249)", // mysteria-purple
       glowColor: "rgba(150, 91, 249, 0.5)",
       href: "/shop",

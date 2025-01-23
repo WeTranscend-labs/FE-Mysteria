@@ -6,6 +6,7 @@ export interface ChestType {
   type: "Bronze" | "Silver" | "Gold" | "Legend";
   description: string;
   image: string;
+  keyImage: string;
   keyPrice: number;
   color: string;
   glowColor: string;
@@ -25,4 +26,5 @@ export interface KeyPackage {
   discount: number;
   type: ChestType["type"];
   image: string;
+  chestImage: string;
 }
